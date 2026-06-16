@@ -222,7 +222,9 @@ The form and table below are where you create slugs, paste target URLs, toggle l
 
 ## Diagnostics
 
-**Diagnostics** is the pre-flight screen: WordPress, PHP, MySQL, and plugin version, table health, visit/session totals, one-click **Run Tests**, and an optional debug log tail when debug mode is on. [logicencoder/wp-visitor-stats-plugin](https://github.com/logicencoder/wp-visitor-stats-plugin) (v1.4.x runtime)
+**Diagnostics** is the pre-flight screen: WordPress, PHP, MySQL, and plugin version, table health, visit/session totals, one-click **Run Tests**, and an optional debug log tail when debug mode is on.
+
+Private code: [logicencoder/wp-visitor-stats-plugin](https://github.com/logicencoder/wp-visitor-stats-plugin) (v1.4.x runtime)
 
 See [REPOS.md](REPOS.md).
 
