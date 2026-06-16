@@ -6,6 +6,18 @@
 
 It is the **analytics home** for the Logic Encoder WordPress fleet — dashboards, exportable visit history, geo and content reports, campaign attribution, edge bans, and branded short URLs without sending the full clickstream to an external SaaS.
 
+[logicencoder.com](https://logicencoder.com) runs gas tracker, MEXC coin pages, DNX tools, shop landings, and member flows. WP Visitor Stats centralises analytics in one sidebar:
+
+- **Dashboard KPIs and trends** with shared date presets across reports.
+- **Per-IP visit logs** with filters, expandable detail, and CSV export.
+- **Live visitor view** with configurable auto-refresh for the last five minutes.
+- **Geo, content, and technology breakdowns** for product and editorial decisions.
+- **UTM campaign tables** and **custom event counters** for experiments.
+- **Ban list and auto-ban rules** — HTTP 403 before WordPress renders abusive clients.
+- **URL shortener** with per-link click stats on the same domain.
+
+Data stays in your database; charts, logs, maps, campaigns, bans, and short links all live in wp-admin.
+
 ## Tech stack
 
 | Layer | Technologies |
@@ -19,20 +31,6 @@ It is the **analytics home** for the Logic Encoder WordPress fleet — dashboard
 | Short links | Public `{yoursite}/go/{slug}` → 301 redirect with click attribution |
 | Integration | Tracking snippet embeds on static HTML from [mexc-live-stats-plugin](https://github.com/logicencoder/mexc-live-stats-plugin-overview) snapshot pages |
 | Hosting | WordPress on shared hosting; wp-admin UI only |
-
-## What it delivers
-
-[logicencoder.com](https://logicencoder.com) runs gas tracker, MEXC coin pages, DNX tools, shop landings, and member flows — you need to see **which pages get traffic**, **where visits come from**, and **which IPs probe 404s**, with data under your control in WordPress. WP Visitor Stats centralises that in one sidebar:
-
-- **Dashboard KPIs and trends** with shared date presets across reports.
-- **Per-IP visit logs** with filters, expandable detail, and CSV export.
-- **Live visitor view** with configurable auto-refresh for the last five minutes.
-- **Geo, content, and technology breakdowns** for product and editorial decisions.
-- **UTM campaign tables** and **custom event counters** for experiments.
-- **Ban list and auto-ban rules** — HTTP 403 before WordPress renders abusive clients.
-- **URL shortener** with per-link click stats on the same domain.
-
-Data stays in your database; charts, logs, maps, campaigns, bans, and short links all live in wp-admin.
 
 ## Admin menu layout
 
