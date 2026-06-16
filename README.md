@@ -230,4 +230,49 @@ See [REPOS.md](REPOS.md).
 
 ---
 
+## Feature examples (two per capability)
+
+#### Automatic site tracking
+1. You browse public pages and the plugin records views, time on page, scroll depth, and UTM tags without a third-party analytics account.
+2. You arrive from a tagged campaign link and the session keeps attribution through subsequent pages on logicencoder.com.
+
+#### Overview dashboard (operator)
+1. You open **Visitor Stats → Overview**, pick **Last 7 Days**, and expand KPI tiles for visits, bounce rate, bots, and peak hour.
+2. You read trend charts, traffic sources, top pages, and the hour×weekday heatmap to plan publish timing.
+
+#### IP Addresses log (operator)
+1. You filter by country, bot/VPN class, and date range, then expand row **D** for geo context on a suspicious hit.
+2. You click **B** on a row and ban the IP from the same screen when you confirm abusive behavior.
+
+#### Live Visitors (operator)
+1. You enable **Auto-refresh** at 10-second intervals during a launch and watch active sessions on the current URL list.
+2. You click **Refresh Now** after posting a promo link and confirm traffic lands on the intended landing page.
+
+#### Geo Reports and Content Analysis (operator)
+1. You open the world map to see where gas tracker, MEXC, or shop pages draw readers.
+2. You rank pages by bounce and exit rate, then open **404 Error Pages** and fix the URLs scanners hit most.
+
+#### Campaigns and custom events (operator)
+1. You read **Top Campaigns** for UTM source/medium/name when editors tag newsletter links.
+2. You roll up custom event counts to validate an A/B experiment in the date range you select.
+
+#### Ban List (operator + visitor impact)
+1. You add a repeat scanner to the ban list and that visitor receives **HTTP 403** before WordPress renders any page.
+2. You whitelist your office IP so trusted nets never trip auto-ban during monitoring.
+
+#### URL Shortener (operator + visitor)
+1. You create a slug pointing at a long tool URL and share `yoursite.com/go/slug` in Telegram or docs.
+2. You click **View Stats** on a link and see clicks over time, top countries, and referrers for that short URL.
+
+#### Settings and data hygiene (operator)
+1. You set retention, exclude admin views, tune 404 auto-ban thresholds, and pick a display timezone for reports.
+2. You run **Remove Duplicate Visits** or **Backup DB (SQL)** before a major cleanup.
+
+#### Diagnostics (operator)
+1. You open **Diagnostics**, run self-tests, and confirm table health before blaming empty charts on tracking being off.
+2. You tail the optional debug log when **Settings** debug mode is enabled during a tracking incident.
+
+
+---
+
 **Made by [Logic Encoder](https://logicencoder.com)** · [GitHub](https://github.com/logicencoder) · [Contact](https://logicencoder.com/contact/)
