@@ -1,6 +1,6 @@
 # WP Visitor Stats — WordPress plugin
 
-![WP Visitor Stats — Overview dashboard with KPI tiles and trend charts](assets/featured.png)
+![WP Visitor Stats — full Overview screen in wp-admin](assets/featured.png)
 
 **WP Visitor Stats** is first-party analytics for [logicencoder.com](https://logicencoder.com): one wp-admin menu for page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener. You configure tracking once; visit rows, charts, geo maps, campaign rollups, ban rules, and `/go/` short links apply across the public site.
 
@@ -93,6 +93,8 @@ Four **Chart.js** panels sit below the tiles:
 | **New vs. Returning** | Doughnut split of first-time vs repeat sessions |
 | **VPN & Bot Traffic Trend** | Line trend when bot stats feed alerts (settings-controlled) |
 | **Traffic Sources** | Doughnut of referrer categories (direct, search, social, etc.) |
+
+![Overview — KPI tiles and visitor trend charts](assets/overview-dashboard.png)
 
 A **Traffic Sources & Alerts** panel can surface up to four security or anomaly notices when alert rules fire. Tables list **Top Referrers** and **Top Pages** with view counts and average time on page. The **Traffic Heatmap** is a time-of-week grid (hour × weekday) showing aggregate visit intensity.
 
