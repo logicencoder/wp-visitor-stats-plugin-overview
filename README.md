@@ -1,5 +1,7 @@
 # WP Visitor Stats — WordPress plugin
 
+![WP Visitor Stats — Overview dashboard with KPI tiles and trend charts](assets/featured.png)
+
 **WP Visitor Stats** is first-party analytics for [logicencoder.com](https://logicencoder.com): page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener — all inside WordPress wp-admin. Data stays in your database under operator control; there is no third-party analytics dashboard or off-site clickstream export.
 
 The plugin pairs a **browser beacon** (Chart.js dashboards, geo maps, campaigns) with an optional **server-side fallback** (raw request log for traffic that never runs JavaScript). Operators get one menu for marketing insight and abuse response without opening hosting panels.
@@ -67,7 +69,7 @@ Four **Chart.js** panels sit below the tiles:
 
 A **Traffic Sources & Alerts** panel can surface up to four security or anomaly notices when alert rules fire. Tables list **Top Referrers** and **Top Pages** with view counts and average time on page. The **Traffic Heatmap** is a time-of-week grid (hour × weekday) — aggregate visit intensity, not click coordinates.
 
-Overview totals and charts use **JavaScript-tracked visits only** so charts reflect real browser sessions, not server-side prefetch rows.
+Overview totals and charts use **JavaScript-tracked visits only** so charts reflect real browser sessions, not server-side prefetch rows. The hero screenshot shows the expandable KPI row, four Chart.js panels, top referrers/pages tables, and the hour × weekday heatmap grid.
 
 ## IP addresses and live visitors
 
@@ -77,11 +79,15 @@ Overview totals and charts use **JavaScript-tracked visits only** so charts refl
 
 **Live Visitors** shows who is active in the **last five minutes**: IP, country flag, time ago, page title and URL, browser, OS, and device. Turn **auto-refresh** on or off and pick **5s / 10s / 30s / 60s** intervals, or hit **Refresh Now**. The header shows a live **Active Visitors** count.
 
+![IP Addresses — filtered visit log with export and ban actions](assets/ip-addresses.png)
+
 ## Geo reports
 
 **Geo Reports** opens with three tabs — **Countries**, **Regions**, and **Cities**.
 
 The **Countries** tab combines a **Leaflet** world map (OpenStreetMap tiles) with a **Top Countries** table: flag, visits, unique visitors, VPN/proxy percentage, and share of traffic. **Regions** and **Cities** tabs rank subdivisions and cities with the same visit metrics. All geo views honour the shared date range and **Refresh** control.
+
+![Geo Reports — world map and top countries table](assets/geo-reports.png)
 
 ## Content analysis
 
@@ -91,9 +97,13 @@ Three doughnut charts break down **traffic sources**, **devices**, and **top bro
 
 Collapsible sections expose **Top 10 Entry Pages**, **Top 10 Exit Pages**, **Session Duration Distribution**, and **Pages per Session** charts. A **404 Error Pages** block lists URLs that returned not-found, hit counts, and unique IPs — the same signal that feeds auto-ban thresholds on the Ban List.
 
+![Content Analysis — page performance table and traffic breakdown charts](assets/content-analysis.png)
+
 ## Technology
 
 The **Technology** screen charts **browser distribution** and **device distribution** (desktop, mobile, tablet) for the selected period. Sortable tables list browsers, devices, and operating systems with visit counts and percentage share. Use it to prioritise QA browsers and spot mobile-heavy landing pages.
+
+![Technology — browser and device distribution charts](assets/technology.png)
 
 ## Campaigns and custom events
 
@@ -117,6 +127,8 @@ A collapsible **Top IPs with 404 hits** table highlights repeat offenders. **Ban
 
 Enforcement runs on every front-end request before WordPress renders: banned clients receive **HTTP 403 Forbidden**. Administrators are never blocked. **Auto-ban** increments when an IP exceeds the **404 threshold** within twenty-four hours; **Stricter Rules for China** lowers that threshold for Chinese geo when enabled in Settings.
 
+![Ban List — whitelist, manual ban, and banned IP table](assets/ban-list.png)
+
 ## URL shortener
 
 Public short URLs live at **`{yoursite}/go/{slug}`** — a **301 redirect** to the target with click logging (geo, device, bot flag, referrer).
@@ -126,6 +138,8 @@ Summary cards show total clicks, active links, clicks today, and total links cre
 The links table shows short URL, target, title, clicks, unique clicks, an **active/inactive** toggle, and actions: **Copy**, **View Stats**, **Edit**, **Delete** (confirms loss of click history). **Search links** filters the list.
 
 **View Stats** expands an inline panel with day-range buttons (7 / 30 / 90 days), mini metrics, a bar chart of clicks over time, and top countries and referrers for that link.
+
+![URL Shortener — link table with clicks and active toggles](assets/url-shortener.png)
 
 ## Settings and data hygiene
 
@@ -150,6 +164,8 @@ The **Database** card shows row counts for visits, sessions, and page stats. **R
 
 A daily scheduled job purges visits and sessions older than the retention setting. Page-level rollups older than one year are trimmed independently. Custom events, bans, and short links are not removed by that job.
 
+![Settings — tracking toggles, retention, database tools, and excluded IPs](assets/settings.png)
+
 ## Diagnostics
 
 **Diagnostics** confirms the stack before you trust charts. **System Information** lists WordPress version, PHP version, database server, plugin version, and whether debug mode is on. **Database Information** checks that expected tables exist and reports total visit and session counts.
@@ -157,6 +173,8 @@ A daily scheduled job purges visits and sessions older than the retention settin
 **Run Tests** (or **Run Tests Again**) executes grouped checks: database connectivity, tracking pipeline health, and settings consistency. Results appear in three sections with pass/fail detail.
 
 When **Debug Mode** is enabled, a **Debug Log** panel shows the tail of the plugin log file and a **Clear Log** button.
+
+![Diagnostics — system info, database checks, and verification tests](assets/diagnostics.png)
 
 ## Front-end tracking behaviour
 
