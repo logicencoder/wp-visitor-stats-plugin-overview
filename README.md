@@ -1,6 +1,6 @@
 # WP Visitor Stats — WordPress plugin
 
-![WP Visitor Stats — full Overview screen in wp-admin](assets/featured.png)
+![WP Visitor Stats — full Overview screen in wp-admin](assets/featured-overview-full.png)
 
 **WP Visitor Stats** is first-party analytics for [logicencoder.com](https://logicencoder.com): one wp-admin menu for page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener. You configure tracking once; visit rows, charts, geo maps, campaign rollups, ban rules, and `/go/` short links apply across the public site.
 
