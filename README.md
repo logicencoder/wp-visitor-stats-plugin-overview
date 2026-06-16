@@ -2,7 +2,7 @@
 
 ![WP Visitor Stats — Overview dashboard with KPI tiles and trend charts](assets/featured.png)
 
-**WP Visitor Stats** is first-party analytics for [logicencoder.com](https://logicencoder.com): page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener — all inside WordPress wp-admin. Data stays in your database under operator control; there is no third-party analytics dashboard or off-site clickstream export.
+**WP Visitor Stats** is first-party analytics on [logicencoder.com](https://logicencoder.com): page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener in WordPress wp-admin.
 
 ## Tech stack
 
@@ -16,7 +16,7 @@
 | Security | IP and CIDR bans at `init`, auto-ban on repeated 404 patterns, ban whitelist |
 | Short links | Public `{yoursite}/go/{slug}` → 301 redirect with click attribution |
 | Integration | Tracking snippet embeds on static HTML from [mexc-live-stats-plugin](https://github.com/logicencoder/mexc-live-stats-plugin-overview) snapshot pages |
-| Hosting | WordPress on shared hosting; wp-admin operator UI only |
+| Hosting | WordPress on shared hosting; wp-admin UI only |
 
 ## Admin menu layout
 
@@ -56,7 +56,7 @@ Each page has its own **Refresh Data** button (spinner while loading). Hidden fi
 
 ## Overview dashboard
 
-The **Overview** screen is the daily health check. Ten **expandable metric tiles** sit in two rows — click any tile to flip open an inline breakdown table without leaving the page:
+The **Overview** screen opens with ten **expandable metric tiles** in two rows — click any tile to flip open an inline breakdown table without leaving the page:
 
 | Tile | Headline metric | Expand reveals |
 |------|-----------------|----------------|
@@ -90,7 +90,7 @@ A **Traffic Sources & Alerts** panel can surface up to four security or anomaly 
 
 ## IP addresses
 
-**IP Addresses** is the visit log for filtered forensic review. A paginated **DataTables** grid lists IP, visit time, country, page URL, referrer, browser, OS, device, bot flag, VPN flag, and actions. Column resize handles let you widen URL or referrer columns on large monitors.
+**IP Addresses** is a paginated visit log. A **DataTables** grid lists IP, visit time, country, page URL, referrer, browser, OS, device, bot flag, VPN flag, and actions. Column resize handles let you widen URL or referrer columns on large monitors.
 
 **Filters** cover IP search, country dropdown, bot (All / Bots / Humans), VPN (All / VPN / Exclude VPN), and from/to date pickers. **Apply Filters**, **Reset**, and **Refresh** reload the grid without a full page reload.
 
@@ -105,7 +105,7 @@ A **Traffic Sources & Alerts** panel can surface up to four security or anomaly 
 
 ## Live visitors
 
-**Live Visitors** answers “who is on the site right now?” — sessions active in the **last five minutes**.
+**Live Visitors** lists sessions active in the **last five minutes**.
 
 The header shows a live **Active Visitors** count. The table lists IP, country flag (via flag CDN), time ago, page title and URL, browser, OS, and device.
 
@@ -115,23 +115,21 @@ The header shows a live **Active Visitors** count. The table lists IP, country f
 | Refresh rate | **5s**, **10s**, **30s**, or **60s** |
 | **Refresh Now** | Immediate manual reload |
 
-Use this screen during launches or incident response when you need near-real-time presence without waiting for aggregated dashboard charts to refresh.
-
 ## Geo reports
 
 **Geo Reports** opens with three tabs — **Countries**, **Regions**, and **Cities** — each honouring the shared date range and **Refresh** control.
 
 The **Countries** tab combines a **Leaflet** world map (OpenStreetMap tiles) with choropleth-style country colouring and a **Top Countries** table: flag, visits, unique visitors, VPN/proxy percentage, and share of total traffic.
 
-The **Regions** tab ranks states/provinces with the same visit and unique-visitor columns. The **Cities** tab ranks municipalities for hyper-local campaigns or CDN tuning.
+The **Regions** tab ranks states/provinces with the same visit and unique-visitor columns. The **Cities** tab ranks municipalities with the same columns.
 
 ![Geo Reports — world map and top countries table](assets/geo-reports.png)
 
 ## Content analysis
 
-**Content Analysis** answers “which URLs earn attention.” Four summary cards at the top show total page views, unique pages, average time on page, and average bounce rate for the range.
+**Content Analysis** opens with four summary cards: total page views, unique pages, average time on page, and average bounce rate for the range.
 
-Three doughnut charts break down **traffic sources**, **devices**, and **top browsers**. The **Page Performance** table lists each URL with views, unique views, average time, bounce rate, and exit rate — sortable for finding high-exit landing pages.
+Three doughnut charts break down **traffic sources**, **devices**, and **top browsers**. The **Page Performance** table lists each URL with views, unique views, average time, bounce rate, and exit rate — sortable by column.
 
 Collapsible sections below expose:
 
@@ -147,7 +145,7 @@ Collapsible sections below expose:
 
 ## Technology
 
-The **Technology** screen charts **browser distribution** and **device distribution** (desktop, mobile, tablet) for the selected period. Sortable tables list browsers, devices, and operating systems with visit counts and percentage share. Use it to prioritise QA browsers, validate mobile share on trading landings, and spot outdated IE-era user agents still hitting legacy URLs.
+The **Technology** screen charts **browser distribution** and **device distribution** (desktop, mobile, tablet) for the selected period. Sortable tables list browsers, devices, and operating systems with visit counts and percentage share.
 
 ![Technology — browser and device distribution charts](assets/technology.png)
 
@@ -181,19 +179,13 @@ The **How to Track Custom Events** section documents the global helper:
 wpVisitorStatsTrackEvent(name, category, label, value)
 ```
 
-Use it for button clicks, funnel steps, calculator submits, or any product experiment you want counted without deploying a separate analytics SDK.
-
 ## All visitors
 
-**All Visitors** mirrors the IP Addresses grid with the same columns and filters, plus a **Source** dropdown to narrow by visit type. **Apply Filters**, **Reset**, and **Refresh** behave the same. Row actions: **D** for expanded IP detail, **B** for ban.
-
-**CSV export** lives on IP Addresses; All Visitors is optimized for browse, filter, and ban on the complete visit log.
+**All Visitors** mirrors the IP Addresses grid — same columns, filters, **Apply** / **Reset** / **Refresh**, and row actions **D** and **B** — plus a **Source** dropdown to narrow by visit type. **CSV export** is on IP Addresses only.
 
 ## Ban list and edge blocking
 
-**Ban List** is the security operations desk.
-
-**Summary cards** at the top:
+**Ban List** opens with summary cards:
 
 | Card | Meaning |
 |------|---------|
@@ -255,7 +247,7 @@ The links table shows short URL, target, title, clicks, unique clicks, an **acti
 | **Data Retention** | 30 days, 90 days, 6 months, 1 year, 2 years, or never purge (0) |
 | **Debug Mode** | File logging and Diagnostics log panel |
 
-The **Database** card shows live row counts for visits, sessions, and page stats. Operator tools:
+The **Database** card shows live row counts for visits, sessions, and page stats.
 
 | Button | Effect |
 |--------|--------|
@@ -269,9 +261,7 @@ A daily scheduled job purges visits and sessions older than the retention settin
 
 ## Diagnostics
 
-**Diagnostics** confirms the stack before you trust charts.
-
-**System Information** lists WordPress version, PHP version, MySQL version, plugin version (`WP_VISITOR_STATS_VERSION`), and whether debug mode is on.
+**Diagnostics** shows WordPress, PHP, MySQL, and plugin version in **System Information**, plus whether debug mode is on.
 
 **Database Information** verifies expected tables exist and reports total visit and session counts.
 
