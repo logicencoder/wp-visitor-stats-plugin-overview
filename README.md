@@ -230,7 +230,7 @@ See [REPOS.md](REPOS.md).
 
 ---
 
-## Feature examples (two per capability)
+## Operator workflows
 
 #### Automatic site tracking
 1. You browse public pages and the plugin records views, time on page, scroll depth, and UTM tags without a third-party analytics account.
