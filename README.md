@@ -1,277 +1,174 @@
-# WP Visitor Stats — WordPress plugin
+# WP Visitor Stats — WordPress analytics
 
-![WP Visitor Stats — full Overview screen in wp-admin](assets/featured-overview-full.png)
+![WP Visitor Stats dashboard with the shared Logic Encoder toolbar, metric cards and trend charts](assets/dashboard-dark.png)
 
-**WP Visitor Stats** is first-party analytics for [logicencoder.com](https://logicencoder.com): one wp-admin menu for page views, geography, technology mix, UTM campaigns, custom events, live sessions, IP bans, and a built-in URL shortener. You configure tracking once; visit rows, charts, geo maps, campaign rollups, ban rules, and `/go/` short links apply across the public site.
-
-It is the **analytics home** for the Logic Encoder WordPress fleet — dashboards, exportable visit history, geo and content reports, campaign attribution, edge bans, and branded short URLs without sending the full clickstream to an external SaaS.
-
-[logicencoder.com](https://logicencoder.com) runs gas tracker, MEXC coin pages, DNX tools, shop landings, and member flows. WP Visitor Stats centralises analytics in one sidebar:
-
-- **Dashboard KPIs and trends** with shared date presets across reports.
-- **Per-IP visit logs** with filters, expandable detail, and CSV export.
-- **Live visitor view** with configurable auto-refresh for the last five minutes.
-- **Geo, content, and technology breakdowns** for product and editorial decisions.
-- **UTM campaign tables** and **custom event counters** for experiments.
-- **Ban list and auto-ban rules** — HTTP 403 before WordPress renders abusive clients.
-- **URL shortener** with per-link click stats on the same domain.
-
-Data stays in your database; charts, logs, maps, campaigns, bans, and short links all live in wp-admin.
+**WP Visitor Stats** brings first-party analytics, interaction heatmaps and traffic investigation into one WordPress admin menu on [logicencoder.com](https://logicencoder.com). Operators can follow visit trends, inspect individual requests, compare page performance, examine suspected automation and manage short links without sending the full clickstream to an external analytics service.
 
 ## Tech stack
 
 | Layer | Technologies |
 |-------|--------------|
-| WordPress plugin | PHP single-file (`wp-visitor-stats.php`, ~9.7k LOC) + `js/admin.js` (~3.8k LOC), inline admin CSS |
-| Persistence | WordPress options + MySQL |
-| Admin charts | Chart.js 3.9, DataTables 1.11 (paginated tables), Leaflet 1.9 on geo map |
-| Site tracking | Page views, time on page, scroll depth, custom events, UTM capture |
-| Geo / VPN | IP lookup with country, region, city, and VPN/proxy flags |
-| Security | IP and CIDR bans, auto-ban on repeated 404 patterns, ban whitelist |
-| Short links | Public `{yoursite}/go/{slug}` redirects with per-click stats |
-| Integration | Visit counts on [mexc-live-stats-plugin](https://github.com/logicencoder/mexc-live-stats-plugin-overview) snapshot pages |
-| Hosting | WordPress on shared hosting; wp-admin UI only |
+| WordPress integration | PHP, WordPress hooks, authenticated admin AJAX, WP-CLI maintenance |
+| Admin interface | JavaScript, jQuery, shared Logic Encoder Light/Dark palette, responsive CSS |
+| Reports | Chart.js, DataTables, Leaflet and OpenStreetMap |
+| Persistence | MySQL/MariaDB and WordPress options |
+| Interaction visualization | First-party pointer/click collector, Canvas 2D overlays, page-preview iframe |
+| Verification | Python, Playwright/Chromium, PHP and JavaScript regression tests |
+| Related tools | [Gate live statistics](https://github.com/logicencoder/gate-live-stats-plugin-overview), [MEXC live statistics](https://github.com/logicencoder/mexc-live-stats-plugin-overview) |
 
-## Admin menu layout
+## Shared controls and appearance
 
-Top-level wp-admin menu **Visitor Stats** (chart-bar icon). Thirteen submenu screens:
+Every section uses the existing Logic Encoder admin theme. **Light** and **Dark** are two display modes of that theme, selected with the switch at the right of the shared toolbar. The section name, shared date preset and **Refresh Data** occupy one desktop row; the controls wrap below the title on small screens. Inputs, selects and ordinary action buttons use one height, while metric tiles, checkboxes, charts and multi-line fields retain sizes appropriate to their roles.
 
-| Screen | Primary use |
-|--------|-------------|
-| **Overview** | KPI tiles, trend charts, traffic sources, heatmap by hour × weekday |
-| **IP Addresses** | Searchable visit log, filters, CSV export, ban action |
-| **Live Visitors** | Active sessions in the last five minutes |
-| **Geo Reports** | World map and country/region/city tables |
-| **Content Analysis** | Page performance, entry/exit pages, 404 report |
-| **Technology** | Browser, OS, and device charts and tables |
-| **Campaigns** | UTM attribution and in-admin tracking guide |
-| **Custom Events** | Named event rollups and front-end API docs |
-| **All Visitors** | Full visit log with source filter |
-| **Ban List** | Whitelist, manual bans, auto-ban summary, unban |
-| **URL Shortener** | Create `/go/` links, toggle active, per-link stats |
-| **Diagnostics** | Environment info, self-tests, optional debug log tail |
-| **Settings** | Tracking modes, retention, exclusions, database tools |
+The Light mode uses the same hierarchy, spacing and controls as Dark. Switching modes changes surfaces, borders, text and chart presentation while preserving the selected report and filters. Wide data tables scroll within their own panels, and compact visitor tables can expose additional columns through their responsive row controls. No fields are discarded simply to fit a narrow screen.
 
-## Shared date range control
+![The same Visitor Stats dashboard in the existing Logic Encoder Light display mode](assets/dashboard-light.png)
 
-Analytic pages (Overview, Geo, Content, Technology, Campaigns, Custom Events) share the same **Date Range** bar at the top:
+Seven reports share **Date Range**: Overview, Geo Reports, Content Analysis, Technology, Campaigns, Custom Events and Bot Activity. Each has a **Refresh Data** action; a custom range reveals start/end fields and **Apply**. Heatmaps has its own period and viewport filters, while the visit logs use their own field/date filters.
 
-| Preset | Window |
-|--------|--------|
-| Today | Current calendar day |
-| Yesterday | Previous calendar day |
-| Last 24 Hours | Rolling twenty-four hours |
-| Last 3 / 7 / 30 Days | Rolling windows (7 days is the default) |
-| This Month / Last Month | Calendar month boundaries |
-| Last 2 / 6 Months | Rolling multi-month windows |
-| Custom Range | Start + end date pickers with **Apply** |
-
-Each page has its own **Refresh Data** button. Admin timestamps can display in a **custom timezone** when enabled in Settings.
+| Preset | Report window |
+|--------|---------------|
+| Today / Yesterday | Calendar-day reports |
+| Last 24 Hours | Rolling hourly report |
+| Last 3 / 7 / 30 Days | Short and longer reporting windows |
+| This Month / Last Month | Calendar-month reports |
+| Last 2 / 6 Months | Longer comparison periods |
+| Custom Range | Operator-selected start and end dates |
 
 ## Overview dashboard
 
-The **Overview** screen answers “how is the site doing this week?” — visit volume, returning readers, bot and VPN share, busiest hours, and which referrers and URLs matter, without opening a separate analytics product.
+**Overview** combines headline metrics with trends: total visits, distinct visitors, pages per session, average session duration, bounce rate, new visitors, bot visits, VPN visits, peak hour and countries. Metric tiles expand into inline breakdowns, so an operator can investigate a change without navigating away from the report. The date control updates the cards and report panels together.
 
-Ten **expandable metric tiles** sit in two rows — click any tile to flip open an inline breakdown table without leaving the page:
+**Visitor Trends** compares visit volume with distinct visitors; **New vs. Returning** shows the returning-reader mix. **VPN & Bot Traffic Trend** distinguishes flagged categories from unflagged traffic, and **Traffic Sources & Alerts** helps explain unusual direct, search, social or referral activity. Lower panels expose top referrers, top pages and an hour-by-weekday traffic heatmap. That temporal heatmap describes busy times; the separate **Heatmaps** section visualizes page interactions.
 
-| Tile | Headline metric | Expand reveals |
-|------|-----------------|----------------|
-| **Total Visits** | All hits in range | Visit distribution detail |
-| **Unique Visitors** | Distinct IPs/sessions | Unique breakdown |
-| **Pages / Session** | Average depth | Session depth detail |
-| **Avg. Session** | Mean session length | Duration breakdown |
-| **Bounce Rate** | Single-page sessions | Bounce detail |
-| **New Visitors** | First-time vs returning split | New/return detail |
-| **Bot Visits** | Bot-classified hits (when tracking bots) | Bot volume detail |
-| **VPN Visits** | VPN/proxy flagged hits | VPN detail |
-| **Peak Hour** | Busiest hour of day | Hourly distribution |
-| **Countries** | Country count | Top country list |
-
-Four **Chart.js** panels sit below the tiles:
-
-| Chart | What it shows |
-|-------|----------------|
-| **Visitor Trends** | Visit volume over the selected range |
-| **New vs. Returning** | Doughnut split of first-time vs repeat sessions |
-| **VPN & Bot Traffic Trend** | Line trend when bot stats feed alerts (settings-controlled) |
-| **Traffic Sources** | Doughnut of referrer categories (direct, search, social, etc.) |
-
-The tile row and trend charts give a single-glance read on traffic health — totals, returning vs new readers, and whether bot or VPN volume is climbing.
-
-![Overview — KPI tiles and visitor trend charts](assets/overview-dashboard.png)
-
-The **VPN & Bot Traffic Trend** and **Traffic Sources** panels separate normal visits from masked or automated traffic and show whether people arrive direct, from search, or from referral links. The alerts strip flags unusual patterns at a glance.
-
-![Overview — VPN and bot trend with traffic sources and alerts](assets/overview-alerts-sources.png)
-
-**Top Referrers** and **Top Pages** rank which inbound links and which URLs on logicencoder.com actually earn time — the table includes average time on page so you see stickiness, not just raw hits.
-
-![Overview — top referrers and top pages tables](assets/overview-referrers-pages.png)
-
-The **Traffic Heatmap** shows which hours and weekdays carry the most visits — useful for scheduling publishes, promos, or maintenance windows when the fewest real readers are online.
-
-![Overview — traffic heatmap by hour and day of week](assets/overview-heatmap.png)
+Counts represent tracked records and derived aggregates. A browser-shaped request or an unflagged row is not proof of a person; automated browsers can execute JavaScript and contribute to a visit total. Operators should compare trends with **Bot Activity**, the raw log and classification reasons before interpreting a spike as audience growth.
 
 ## IP addresses
 
-**IP Addresses** is the drill-down log when you need to prove who hit a URL, from which country, on which device — and whether they were flagged as bot or VPN. Export filtered rows to CSV for offline review or handoff; ban a hostile IP from the same row without leaving the table.
+**IP Addresses** provides a searchable JavaScript-tracked visit log. The filters narrow results by address, country, bot/VPN state and dates. **Apply** updates the result set, **Reset** clears field filters, and the toolbar provides **Refresh** and **Export CSV**. Sorting and pagination let an operator inspect a large history without loading every visit into the visible table.
 
-**Filters** cover IP search, country dropdown, bot (All / Bots / Humans), VPN (All / VPN / Exclude VPN), and from/to date pickers. **Apply Filters**, **Reset**, and **Refresh** reload the grid without a full page reload.
+Rows retain URL, referrer, browser, operating system, device and classification information. **D** opens visit details and **B** starts a ban action; both have accessible descriptions in addition to their compact labels. On narrow screens the table keeps its data reachable rather than widening the entire page.
 
-**Export to CSV** downloads the current filter set as a spreadsheet (capped at a high export limit). Each row exposes:
-
-| Action | Effect |
-|--------|--------|
-| **D** | Expand IP detail — geo context, ISP/org line when available |
-| **B** | Open ban dialog — pre-fills IP for one-click block |
-
-![IP Addresses — filtered visit log with export and ban actions](assets/ip-addresses.png)
+![IP Addresses report with matching-height filters, row actions and a searchable visit table; identifiers are documentation examples](assets/ips-dark.png)
 
 ## Live visitors
 
-**Live Visitors** shows who is on the site in the **last five minutes** — current page, country, browser, and device — with a live **Active Visitors** count. Handy when you push a launch, run a promo, or want immediate confirmation that traffic is landing on the right URL.
+**Live Visitors** shows recently active visitors within the last five minutes. **Auto-refresh** can be enabled or paused, and **Refresh rate** selects the polling interval; **Refresh Now** requests an immediate update. The active-visitor count and recent-session cards give an operator a current view without repeatedly opening the full history.
 
-| Control | Behaviour |
-|---------|-----------|
-| **Auto-refresh** toggle | Poll for new rows on an interval (default on) |
-| Refresh rate | **5s**, **10s**, **30s**, or **60s** |
-| **Refresh Now** | Immediate manual reload |
+The refresh controls wrap together on mobile, preserving the refresh button and count within the page. An empty state explicitly says there are no active visitors rather than displaying stale rows. This screen reports recent activity, not independently verified human identity.
+
+![Live Visitors with refresh controls and the current active-session state](assets/live-dark.png)
 
 ## Geo reports
 
-**Geo Reports** shows where readers come from — world map plus country, region, and city tables with visit counts, unique visitors, and VPN/proxy share. Spot geographic concentration, unexpected regions on trading or tool pages, and countries with unusually high proxy rates.
+**Geo Reports** offers **Countries**, **Regions** and **Cities** tabs over the selected date range. The country view pairs a world map with country totals and distinct-visitor counts. Additional tabs let an operator inspect a regional or city-level distribution, while sorting/search controls and expandable country rows support investigation of geographical concentrations.
 
-![Geo Reports — world map and top countries table](assets/geo-reports.png)
+The map keeps its own tile viewport and zoom controls. Report columns remain reachable through panel scrolling; on mobile the map and tables stack vertically instead of competing for narrow columns. Geographical and VPN/provider labels describe available lookup information and should be interpreted alongside request behavior.
+
+![Geo Reports country view with map, report tabs and the country table](assets/geo-dark.png)
 
 ## Content analysis
 
-**Content Analysis** ranks which URLs keep attention: page views, time on page, bounce and exit rates, plus entry and exit page lists. The **404 Error Pages** block surfaces URLs scanners and mistyped links hit most — the same signal that drives auto-ban on the Ban List.
+**Content Analysis** helps operators compare the pages people or automated browsers request. Summary cards show page-view volume, distinct pages, average time on page and bounce behavior; accompanying device, browser and timing charts provide context. The **Page Performance** table brings view counts, distinct views, time, bounce and exit measures together for each URL.
 
-![Content Analysis — page performance table and traffic breakdown charts](assets/content-analysis.png)
+Entry-page and exit-page panels help trace where sessions begin and end. The report also exposes likely 404 pages and related traffic breakdowns for investigating broken or unwanted paths. Tables remain searchable and scroll inside their cards on small screens, while charts resize to the available width.
+
+![Content Analysis summary cards, distribution charts and the page-performance report](assets/content-dark.png)
 
 ## Technology
 
-**Technology** breaks down browsers, operating systems, and desktop vs mobile share — so you know what to test on gas tracker, MEXC pages, and long-form guides before you ship UI changes.
+**Technology** groups tracked requests by browser, operating system and device. Charts show the mix and the associated tables expose counts, so an operator can compare desktop/mobile usage or spot an unusually concentrated browser signature. The shared period and refresh action keep these breakdowns aligned with other analytic reports.
 
-![Technology — browser and device distribution charts](assets/technology.png)
+These are reported or inferred client properties, not an authentication mechanism. A repeated Chrome/macOS signature can belong to automation. The page uses the shared card layout and stacks chart/table columns when the viewport narrows.
+
+![Technology report with browser, operating-system and device breakdowns](assets/technology-dark.png)
 
 ## Campaigns
 
-**Campaigns** attributes visits to the UTM tags on your shared links — which Facebook post, newsletter, or ad campaign actually sent people to logicencoder.com. **Campaign Overview** cards and the **Top Campaigns** table list source, medium, campaign name, visits, and unique visitors for the selected range.
+**Campaigns** summarizes UTM-attributed traffic across source, medium and campaign. Operators can compare tagged acquisition activity over the shared reporting period and inspect campaign rows rather than trying to infer campaign performance from referrer URLs alone. The in-admin tracking guide explains how to tag links for the collector.
 
-The built-in **How to Use UTM Tracking** guide on the same screen gives copy-paste query-string examples for social, email, and paid search — UTMs credited on the landing page carry through the rest of the session.
+The page separates campaign totals and distribution panels from the guide. Long parameter examples remain horizontally scrollable in their own code blocks, so the documentation does not push a mobile page beyond its viewport.
+
+![Campaign report with attribution panels and the UTM tracking guide](assets/campaigns-dark.png)
 
 ## Custom events
 
-**Custom Events** counts named actions you care about — button clicks, calculator submits, funnel steps — rolled up by name, category, label, and optional numeric value. **Event Summary** cards and the **All Events** table show what fired in the date range; the on-screen guide explains how editors tag events from the front end.
+**Custom Events** reports named interactions submitted by the site's event API. **All event names** and **All categories** narrow the data, and **Refresh** reloads those filters. The summary cards expose event counts, distinct names/categories, sessions and numeric value; trend, category and top-name charts give a visual comparison.
+
+**All Events** groups name/category/label combinations, while **Recent Events** shows individual recent records. The embedded guide documents the event fields and JavaScript call. Charts respect their grid's available width and event tables/code examples scroll within their panels, including when the selected range contains no events.
+
+```javascript
+wpVisitorStatsTrackEvent('button_click', 'engagement', 'header_cta', 1);
+```
+
+![Custom Events with name/category filters, shared metric cards and responsive charts](assets/events-dark.png)
+
+## Interaction heatmaps
+
+**Visitor Stats → Heatmaps** shows recorded clicks, sampled mouse movements and scroll reach over a page preview. The **Page**, **Period**, **Device** and **Recorded viewport** filters select a comparable cohort before rendering. Summary cards show page views, clicks, movement samples and median scroll reach; **Refresh** requests the selected cohort again.
+
+**Clicks** and **Mouse movement** render density overlays, while **Scroll depth** shows how far recorded views reached. **Overlay opacity** adjusts readability over the preview, and the low-to-high legend explains the density scale. Keeping desktop/mobile and recorded widths separate avoids mixing coordinates from incompatible page layouts.
+
+The preview uses the current page layout at the recorded viewport; it is not a historical DOM recording or a video replay. Page changes can therefore affect alignment with older interactions. Form values and typed text are not collected, previews do not record new interaction views, and excluded/admin/bot sessions are not accepted as ordinary collection data. Empty cohorts display an explicit message.
+
+![The Heatmaps section inside Visitor Stats, showing page/cohort filters and interaction visualization controls](assets/heatmaps-dark.png)
 
 ## All visitors
 
-**All Visitors** is the widest visit log — same searchable grid as IP Addresses, plus a **Source** filter when you need every recorded hit in one place. Row actions **D** (detail) and **B** (ban) match the IP screen; **CSV export** stays on IP Addresses.
+**All Visitors** exposes the full request log, including JavaScript tracking and optional server-side fallback. Segment cards distinguish **Unverified browsers**, **Bots**, other requests and all records; the source selector lets an operator compare the capture paths without assuming JavaScript execution proves a real person.
+
+The table combines field/date filters, searching, sorting, pagination, details, export and ban actions. Classification reasons explain a detector result or suspected automation, while an unverified label explicitly preserves uncertainty. This is the investigation screen to use when a chart spike consists of many direct visits with an identical browser/screen signature.
+
+![All Visitors with source/field filters, audience segments and the complete request log; identifiers are documentation examples](assets/all-dark.png)
+
+## Bot activity
+
+**Bot Activity** focuses on flagged traffic. Summary metrics and a timeline show volume, distinct addresses, agents and attack-related requests. Agent breakdowns, target categories, popular URLs and busy sessions help distinguish ordinary indexing from repeated probes against credentials, authentication endpoints or public tool routes.
+
+The screen includes complete target-category totals as well as a top-target list, so a popular URL does not hide lower-volume categories. Classification labels are evidence to investigate; a provider/network address alone is not treated as proof of a malicious visitor.
+
+![Bot Activity with shared period controls, summary cards and traffic-investigation panels](assets/bots-dark.png)
 
 ## Ban list and edge blocking
 
-**Ban List** blocks abusive IPs at the WordPress edge — scanners hammering 404s, repeat offenders, manual blocks — while a **whitelist** keeps your office, crawlers you trust, and partner ranges from ever being locked out.
+**Ban List** combines security summaries, a whitelist, a manual-ban form and existing bans. Whitelist entries can use a single address or a supported range/CIDR notation; their description helps distinguish office networks and trusted services from temporary exceptions. **Edit** opens a bounded dialog, while removals and ban/unban actions remain explicit operator actions.
 
-| Card | Meaning |
-|------|---------|
-| Total Bans | All active ban rows |
-| Bans Today | Blocks added today |
-| 404 Attempts (7d) | Not-found hits in the last week |
-| Unique IPs on 404 (7d) | Distinct offenders |
-| VPN Traffic (7d) | VPN-flagged volume |
+The manual form accepts an address or range and a reason. Auto-ban thresholds in Settings govern configured suspicious-request patterns, and protected whitelist entries are kept separate from normal bans. Tables scroll within their panels, and the range forms and edit dialog remain usable on mobile.
 
-A collapsible **Top IPs with 404 hits** table highlights repeat scanners before they trip auto-ban.
-
-**Ban Whitelist** accepts single IPs, CIDR notation, or dash ranges with a description field. Whitelisted addresses **never** auto-ban. **+ Add to Whitelist**, **Reload**, edit in a modal, or remove rows.
-
-**Manual ban** accepts a single IP or dash range plus an optional reason — **Ban** writes immediately to the ban table.
-
-**All Banned IPs / Ranges** paginates with page-size selector (10 / 25 / 50 / 100) and **Unban** per row. Banned visitors get **HTTP 403** before the site renders; admins are never blocked. **Auto-ban** applies when 404 hits exceed the threshold in Settings; **Stricter Rules for China** lowers that bar for Chinese geo when enabled.
-
-![Ban List — summary cards, whitelist, and 404 offender panel](assets/ban-list-whitelist.png)
-
-The whitelist table supports single IPs, CIDR ranges, and dash ranges with descriptions — **Anthropic**, office nets, or monitoring hosts stay protected as **Never banned (auto/manual)**.
-
-![Ban List — manual ban form and banned IP table](assets/ban-list-table.png)
+![Ban List summaries, whitelist controls and protected-entry table; identifiers are documentation examples](assets/bans-dark.png)
 
 ## URL shortener
 
-**URL Shortener** gives branded `logicencoder.com/go/…` links with click counts, unique visitors, per-link stats, and top countries/referrers — share in posts, Telegram, or docs and see which short link actually converted.
+**URL Shortener** creates branded `/go/{slug}` links on the same site. **New Short Link** opens an inline form for **Title / Note**, **Slug** and **Target URL**; **Save** commits a valid link, and the close control cancels editing. The short-link prefix stays visible while the slug input takes the remaining field width.
 
-**New Short Link** opens an inline form: title/note, slug, target URL → **Save** or cancel ✕.
+The link list supports searching, active-state toggles, editing and per-link statistics for clicks, distinct visitors, countries and referrers. On narrow screens the create/edit grid becomes one column and the results table scrolls horizontally. These short links intentionally redirect to their configured targets; analytics report URLs and heatmap pages are separate controls.
 
-The links table shows short URL, target, title, clicks, unique clicks, an **active/inactive** toggle, and row actions:
-
-| Action | Effect |
-|--------|--------|
-| **Copy** | Clipboard the public `/go/` URL |
-| **View Stats** | Inline expand with per-link analytics |
-| **Edit** | Change slug, target, or title |
-| **Delete** | Removes link and click history (confirm dialog) |
-
-**Search links** filters the table client-side. **View Stats** expands a panel with day-range buttons (**7 / 30 / 90 days**), mini metrics, a bar chart of clicks over time, and top countries and referrers for that link.
-
-The form and table below are where you create slugs, paste target URLs, toggle links active or off, and open per-link click analytics.
-
-![URL Shortener — link table with clicks and active toggles](assets/url-shortener.png)
+![URL Shortener summary, creation action and searchable short-link list](assets/links-dark.png)
 
 ## Settings and data hygiene
 
-**Settings** controls what gets counted (admins, bots, tracking master switches), how long rows are kept, which IPs to exclude, 404 auto-ban thresholds, display timezone, and debug logging. The **Database** card shows live row counts plus **Reset All Data**, **Remove Duplicate Visits**, and **Backup DB (SQL)** for housekeeping.
+**Settings** controls whether admins/bots are tracked, whether JavaScript and server-side capture are enabled, how long records are retained and which addresses are excluded. The optional display-timezone picker changes how report times are presented while preserving the underlying recording clock. Security settings tune the configured automatic-ban rules.
+
+Maintenance actions include saving exclusions, removing excluded visits, duplicate cleanup, database backup and resetting data. Their descriptions and confirmations distinguish ordinary settings changes from destructive maintenance. Multi-line exclusion fields and long timezone choices stay within the screen width; regular action buttons retain the common control height.
+
+![Settings with capture options, report-timezone controls and configuration descriptions](assets/settings-dark.png)
 
 ## Diagnostics
 
-**Diagnostics** is the pre-flight screen: WordPress, PHP, MySQL, and plugin version, table health, visit/session totals, one-click **Run Tests**, and an optional debug log tail when debug mode is on.
+**Diagnostics** presents plugin/environment information and tracking checks for investigating empty or unexpected reports. Operators can inspect report prerequisites and run the available checks before changing capture settings. When debug logging is enabled, the log view provides additional investigation data.
 
-Private code: [logicencoder/wp-visitor-stats-plugin](https://github.com/logicencoder/wp-visitor-stats-plugin) (v1.4.x runtime)
+Wide diagnostic tables and long messages stay within their own panels, and ordinary test/action buttons match the rest of Visitor Stats. Diagnostics supports troubleshooting; it does not turn uncertain visitor classifications into confirmed human identities.
 
-See [REPOS.md](REPOS.md).
+![Diagnostics with environment information and tracking checks](assets/diagnostics-dark.png)
 
----
+## Responsive verification
 
-## Operator workflows
+The current layout was measured in Chromium across all 15 sections at 360, 390, 768, 1024, 1440 and 1920 CSS pixels, in both display modes of the existing Logic Encoder theme. Separate interaction checks open geographical tabs, link creation, whitelist dialogs, address details, custom dates and timezone controls. Interaction heatmaps are additionally exercised from browser input through collection, persistence and overlay rendering.
 
-#### Automatic site tracking
-1. You browse public pages and the plugin records views, time on page, scroll depth, and UTM tags without a third-party analytics account.
-2. You arrive from a tagged campaign link and the session keeps attribution through subsequent pages on logicencoder.com.
+Images are native 1920 × 1080 browser captures. Visitor identifiers are replaced with documentation examples and temporary WordPress admin notices are hidden for presentation; the product controls and report structure remain the actual interface. Detailed test results and operational evidence belong in the private source repository.
 
-#### Overview dashboard (operator)
-1. You open **Visitor Stats → Overview**, pick **Last 7 Days**, and expand KPI tiles for visits, bounce rate, bots, and peak hour.
-2. You read trend charts, traffic sources, top pages, and the hour×weekday heatmap to plan publish timing.
-
-#### IP Addresses log (operator)
-1. You filter by country, bot/VPN class, and date range, then expand row **D** for geo context on a suspicious hit.
-2. You click **B** on a row and ban the IP from the same screen when you confirm abusive behavior.
-
-#### Live Visitors (operator)
-1. You enable **Auto-refresh** at 10-second intervals during a launch and watch active sessions on the current URL list.
-2. You click **Refresh Now** after posting a promo link and confirm traffic lands on the intended landing page.
-
-#### Geo Reports and Content Analysis (operator)
-1. You open the world map to see where gas tracker, MEXC, or shop pages draw readers.
-2. You rank pages by bounce and exit rate, then open **404 Error Pages** and fix the URLs scanners hit most.
-
-#### Campaigns and custom events (operator)
-1. You read **Top Campaigns** for UTM source/medium/name when editors tag newsletter links.
-2. You roll up custom event counts to validate an A/B experiment in the date range you select.
-
-#### Ban List (operator + visitor impact)
-1. You add a repeat scanner to the ban list and that visitor receives **HTTP 403** before WordPress renders any page.
-2. You whitelist your office IP so trusted nets never trip auto-ban during monitoring.
-
-#### URL Shortener (operator + visitor)
-1. You create a slug pointing at a long tool URL and share `yoursite.com/go/slug` in Telegram or docs.
-2. You click **View Stats** on a link and see clicks over time, top countries, and referrers for that short URL.
-
-#### Settings and data hygiene (operator)
-1. You set retention, exclude admin views, tune 404 auto-ban thresholds, and pick a display timezone for reports.
-2. You run **Remove Duplicate Visits** or **Backup DB (SQL)** before a major cleanup.
-
-#### Diagnostics (operator)
-1. You open **Diagnostics**, run self-tests, and confirm table health before blaming empty charts on tracking being off.
-2. You tail the optional debug log when **Settings** debug mode is enabled during a tracking incident.
-
+Private code: [wp-visitor-stats-plugin](https://github.com/logicencoder/wp-visitor-stats-plugin)
+Related repositories: [REPOS.md](REPOS.md)
 
 ---
 
