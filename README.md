@@ -173,3 +173,6 @@ Related repositories: [REPOS.md](REPOS.md)
 ---
 
 **Made by [Logic Encoder](https://logicencoder.com)** · [GitHub](https://github.com/logicencoder) · [Contact](https://logicencoder.com/contact/)
+
+
+The compact interface uses 28px general controls and 24px row actions and pagination. All 15 sections passed 180 responsive browser cases; a further 60 cases explicitly checked pagination and action anchors. Reference captures show the deployed compact layout with visitor identifiers masked. JavaScript-tracked visits indicate browser execution, not verified human identity.
