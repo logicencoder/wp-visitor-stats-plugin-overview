@@ -176,3 +176,5 @@ Related repositories: [REPOS.md](REPOS.md)
 
 
 The compact interface uses 28px general controls and 24px row actions and pagination. All 15 sections passed 180 responsive browser cases; a further 60 cases explicitly checked pagination and action anchors. Reference captures show the deployed compact layout with visitor identifiers masked. JavaScript-tracked visits indicate browser execution, not verified human identity.
+
+API refreshes are reported as technical requests and excluded from page and session metrics. Historical API records remain accessible through a dedicated filter. The traffic-source chart distinguishes AI referrals, using chatbot referrers and UTM attribution, from crawler activity.
