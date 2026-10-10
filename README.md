@@ -45,6 +45,9 @@ Counts represent tracked records and derived aggregates. A browser-shaped reques
 
 ## IP addresses
 
+The row **B** dialog offers **Single IP**, **IP Range**, and **Whole country**. The country choice starts with that visitor's country, so operators can block current and future visitors from the same location without collecting every new IP. A separate **Whole country bans** panel lists active country rules and provides country selection, an optional reason, **Ban whole country**, and **Unban country** controls.
+
+
 **IP Addresses** provides a searchable JavaScript-tracked visit log. The filters narrow results by address, country, bot/VPN state and dates. **Apply** updates the result set, **Reset** clears field filters, and the toolbar provides **Refresh** and **Export CSV**. Sorting and pagination let an operator inspect a large history without loading every visit into the visible table.
 
 Rows retain URL, referrer, browser, operating system, device and classification information. **D** opens visit details and **B** starts a ban action; both have accessible descriptions in addition to their compact labels. On narrow screens the table keeps its data reachable rather than widening the entire page.
@@ -130,6 +133,11 @@ The screen includes complete target-category totals as well as a top-target list
 ![Bot Activity with shared period controls, summary cards and traffic-investigation panels](assets/bots-dark.png)
 
 ## Ban list and edge blocking
+
+Manual bans now include **Whole country** alongside single addresses and ranges. Choose from 249 country and territory codes, add a reason, and confirm the named country before applying the rule. Country rules appear in the combined ban list and can be removed with **Unban**; they cover new IPv4 and IPv6 visitors as their IP locations are resolved.
+
+Whitelisted IPs and logged-in administrators retain access. Locations the lookup cannot determine remain allowed, as do directly served static files. While a country rule is active, WordPress pages use per-visitor checks and bypass page caching; removing the final country rule restores normal caching.
+
 
 **Ban List** combines security summaries, a whitelist, a manual-ban form and existing bans. Whitelist entries can use a single address or a supported range/CIDR notation; their description helps distinguish office networks and trusted services from temporary exceptions. **Edit** opens a bounded dialog, while removals and ban/unban actions remain explicit operator actions.
 
