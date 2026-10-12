@@ -37,11 +37,19 @@ Seven reports share **Date Range**: Overview, Geo Reports, Content Analysis, Tec
 
 ## Overview dashboard
 
-**Overview** combines headline metrics with trends: total visits, distinct visitors, pages per session, average session duration, bounce rate, new visitors, bot visits, VPN visits, peak hour and countries. Metric tiles expand into inline breakdowns, so an operator can investigate a change without navigating away from the report. The date control updates the cards and report panels together.
+**Overview** combines headline metrics with trends: total visits, estimated distinct browsers, pages per session, average session duration, bounce rate, new visitors, bot visits, VPN visits, peak hour and countries. Metric tiles expand into inline breakdowns, so an operator can investigate a change without navigating away from the report. The date control updates the cards and report panels together.
 
 **Visitor Trends** compares visit volume with distinct visitors; **New vs. Returning** shows the returning-reader mix. **VPN & Bot Traffic Trend** distinguishes flagged categories from unflagged traffic, and **Traffic Sources & Alerts** helps explain unusual direct, search, social or referral activity. Lower panels expose top referrers, top pages and an hour-by-weekday traffic heatmap. That temporal heatmap describes busy times; the separate **Heatmaps** section visualizes page interactions.
 
 Counts represent tracked records and derived aggregates. A browser-shaped request or an unflagged row is not proof of a person; automated browsers can execute JavaScript and contribute to a visit total. Operators should compare trends with **Bot Activity**, the raw log and classification reasons before interpreting a spike as audience growth.
+
+## Consistent visitor measurement
+
+Visitor-only reports share one measurement policy: browser-tracked page activity without detected bots, suspected bot-network flags or technical requests, using the site's configured Jetpack counted-role and Do Not Track preferences. The current configuration excludes logged-in users and respects DNT. Those exclusions do not remove records from the separate raw investigation log.
+
+**Unique Browsers** is an address-and-browser-signature estimate for the selected period, rather than a count of IP addresses presented as people. New and returning browsers use the same identity and eligibility. Content summaries cover all eligible pages, even when the page table shows only its top entries. Historical DNT preferences that were never recorded cannot be reconstructed.
+
+Jetpack remains a separate measurement system with its own capture and classification. Aligning these preferences makes comparisons more meaningful; it does not reproduce its private visitor algorithm or invent matching counts.
 
 ## IP addresses
 
