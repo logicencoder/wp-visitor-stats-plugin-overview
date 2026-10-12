@@ -45,7 +45,7 @@ Counts represent tracked records and derived aggregates. A browser-shaped reques
 
 ## IP addresses
 
-The row **B** dialog offers **Single IP**, **IP Range**, and **Whole country**. The country choice starts with that visitor's country, so operators can block current and future visitors from the same location without collecting every new IP. A separate **Whole country bans** panel lists active country rules and provides country selection, an optional reason, **Ban whole country**, and **Unban country** controls.
+The row **B** dialog offers **Single IP**, **IP Range**, and **Whole country**. The country choice starts with that visitor's country, so operators can block current and future visitors from the same location without collecting every new IP. Active country rules are managed in **Ban List**; the IP Addresses toolbar and filter bar remain separate from ban-list management.
 
 
 **IP Addresses** provides a searchable JavaScript-tracked visit log. The filters narrow results by address, country, bot/VPN state and dates. **Apply** updates the result set, **Reset** clears field filters, and the toolbar provides **Refresh** and **Export CSV**. Sorting and pagination let an operator inspect a large history without loading every visit into the visible table.
