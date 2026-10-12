@@ -48,11 +48,11 @@ Counts represent tracked records and derived aggregates. A browser-shaped reques
 The row **B** dialog offers **Single IP**, **IP Range**, and **Whole country**. The country choice starts with that visitor's country, so operators can block current and future visitors from the same location without collecting every new IP. Active country rules are managed in **Ban List**; the IP Addresses toolbar and filter bar remain separate from ban-list management.
 
 
-**IP Addresses** provides a searchable JavaScript-tracked visit log. The filters narrow results by address, country, bot/VPN state and dates. **Apply** updates the result set, **Reset** clears field filters, and the toolbar provides **Refresh** and **Export CSV**. Sorting and pagination let an operator inspect a large history without loading every visit into the visible table.
+**IP Addresses** provides the visitor-only log: JavaScript-tracked page records without a detected-bot or suspected bot-network flag, excluding API and technical requests. The filters narrow results by address, country, VPN state and dates; bots cannot be enabled in this view. CSV export applies the same visitor scope. **Apply** updates the result set, **Reset** clears field filters, and the toolbar provides **Refresh** and **Export CSV**. Sorting and pagination let an operator inspect a large history without loading every visit into the visible table.
 
 Rows retain URL, referrer, browser, operating system, device and classification information. **D** opens visit details and **B** starts a ban action; both have accessible descriptions in addition to their compact labels. On narrow screens the table keeps its data reachable rather than widening the entire page.
 
-![IP Addresses report with matching-height filters, row actions and a searchable visit table; identifiers are documentation examples](assets/ips-dark.png)
+
 
 ## Live visitors
 
@@ -118,7 +118,7 @@ The preview uses the current page layout at the recorded viewport; it is not a h
 
 ## All visitors
 
-**All Visitors** exposes the full request log, including JavaScript tracking and optional server-side fallback. Segment cards distinguish **Unverified browsers**, **Bots**, other requests and all records; the source selector lets an operator compare the capture paths without assuming JavaScript execution proves a real person.
+**All Visitors** opens the full request log by default, including JavaScript tracking, detected bots, optional server-side fallback and technical/API records. Segment cards distinguish **Unverified browsers**, **Bots**, other requests and all records; the source selector lets an operator compare the capture paths without assuming JavaScript execution proves a real person.
 
 The table combines field/date filters, searching, sorting, pagination, details, export and ban actions. Classification reasons explain a detector result or suspected automation, while an unverified label explicitly preserves uncertainty. This is the investigation screen to use when a chart spike consists of many direct visits with an identical browser/screen signature.
 
