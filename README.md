@@ -194,3 +194,8 @@ Related repositories: [REPOS.md](REPOS.md)
 The compact interface uses 28px general controls and 24px row actions and pagination. All 15 sections passed 180 responsive browser cases; a further 60 cases explicitly checked pagination and action anchors. Reference captures show the deployed compact layout with visitor identifiers masked. JavaScript-tracked visits indicate browser execution, not verified human identity.
 
 API refreshes are reported as technical requests and excluded from page and session metrics. Historical API records remain accessible through a dedicated filter. The traffic-source chart distinguishes AI referrals, using chatbot referrers and UTM attribution, from crawler activity.
+
+
+## Visitor filter correction — 1.5.7
+
+IP Addresses and its CSV export include eligible anonymous browser page visits even when their recorded duration is zero or unavailable. They use the same bot exclusion, role and Do Not Track policy as the analytics summaries. All Visitors retains the complete request log. A browser record without known bot signals remains an estimate, not proof of human identity.
