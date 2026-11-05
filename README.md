@@ -55,7 +55,7 @@ Custom events help the owner examine interactions beyond the initial page view. 
 
 ![WP Visitor Stats — Connect campaigns and interactions](assets/events-dark.png)
 
-Interaction heatmaps offer a spatial view of recorded engagement. They provide another way to investigate how the supported pages are used.
+Interaction heatmaps show where visitors click, where the mouse lingers and how far they scroll. The Heatmaps screen filters by page, period, device class and the exact viewport width that was recorded, and draws click and mouse-movement density overlays and scroll-reach on a preview of the page. Capture is deliberately narrow: pointer events only, mouse movement sampled at most four times a second and sent in batches every ten seconds. No input values, keystrokes or page text are read or stored, and any element marked `data-wpvs-private` is left out. Bots, administrators, excluded IP addresses, visitors who send Do Not Track and preview frames are excluded. The preview shows the current page layout, not a historical snapshot, and visits recorded before heatmaps existed have no coordinates and cannot be reconstructed.
 
 ![WP Visitor Stats — Connect campaigns and interactions](assets/heatmaps-dark.png)
 
@@ -71,13 +71,13 @@ Automation and unwanted activity deserve their own review rather than being sile
 
 ![WP Visitor Stats — Separate automation and unwanted traffic](assets/bots-dark.png)
 
-Ban management provides a separate place to inspect configured responses to unwanted traffic. Review the affected records and intended outcome before changing an access choice.
+Ban management lists the banned addresses, lets the owner ban and unban an address and keeps a whitelist of addresses that must never be banned. A ban list that only grows is a risk in itself, so review the affected records and the reason before changing an access choice.
 
 ![WP Visitor Stats — Separate automation and unwanted traffic](assets/bans-dark.png)
 
 ## Maintain the analytics workspace
 
-Settings, privacy-related choices and data-hygiene controls help the owner maintain a useful collection of reports. Diagnostics support checking the installation when the numbers or a view seem unexpected. Dark and light presentations and responsive layouts make the console usable across different screens.
+Settings cover the data-retention period (180 days by default), the excluded addresses and the tracking options. Data hygiene tools can remove duplicate visit records, purge all stored data for one IP address on request, export the visitor records to CSV and create a database backup first. Because the plugin stores visitor addresses, countries and a VPN flag, a site that uses it needs a stated legal basis, a privacy-notice entry and the retention limit; honouring Do Not Track is a setting: when it is on, such visitors are not tracked and are left out of the reports, and heatmaps always exclude them.
 
 Report usefulness depends on maintaining the surrounding setup as well as reading the figures. Privacy preferences, data hygiene and diagnostics give that work a clear place in the administration routine.
 
