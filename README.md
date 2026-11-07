@@ -94,3 +94,5 @@ Private code: [wp-visitor-stats-plugin](https://github.com/logicencoder/wp-visit
 See [REPOS.md](REPOS.md) for related repositories.
 
 **[Logic Encoder](https://logicencoder.com)** · [GitHub](https://github.com/logicencoder) · [Contact](https://logicencoder.com/contact/)
+
+<!-- TODO(screenshots, 2026-11-07): new screenshots; some current ones are wrong -->
